@@ -16,8 +16,11 @@ func ShowMenu() {
 	fmt.Println("---4 退出系统--")
 	fmt.Println("-请选择(1 - 4)-")
 
-	var key string
+	var key, content string
 	fmt.Scanln(&key)
+
+	// 因为，我们总会使用SmsProcess实例，因此，我们将其定义在switch外部
+	smsProcess := &SmsProcess{}
 
 	switch key {
 	case "1":
@@ -28,6 +31,9 @@ func ShowMenu() {
 	case "2":
 		{
 			fmt.Println("发送消息")
+			fmt.Println("请输入消息：")
+			fmt.Scanln(&content)
+			smsProcess.SendGroupMes(content)
 		}
 	case "3":
 		{
@@ -41,7 +47,6 @@ func ShowMenu() {
 	default:
 		fmt.Println("重新输入")
 	}
-
 }
 
 func serverProcessMes(conn net.Conn) {
@@ -70,6 +75,10 @@ func serverProcessMes(conn net.Conn) {
 				}
 
 				updateUserStatus(notifyUserStatusMes)
+			}
+		case message.SmsMesType: //转发消息
+			{
+				OutPutGroupMes(&mes)
 			}
 		default:
 			{

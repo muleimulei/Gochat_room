@@ -3,12 +3,14 @@ package process
 import (
 	"fmt"
 	"message"
+	"model"
 )
 
 //客户端维护的map
 
 var onlineUsers map[int] *message.User = make(map[int] *message.User, 10)
 
+var CurUser model.CurUsr //我们在用户登录成功后，完成初始化
 
 //在客户端显示当前在线的用户
 func outputOnlineUser() {

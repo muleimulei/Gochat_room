@@ -32,6 +32,16 @@ func (this *Mainprocess) serverProcessMes(mes *message.Message) (err error) {
 			}
 			err = up.ServerProcessRegister(mes)
 		}
+	case message.SmsMesType:
+		{
+			//创建一个SmsProcess实例完成转发群聊消息
+			sp := &process.SmsProcess{}
+			sp.SendGroupMes(mes)
+		}
+	default:
+		{
+			fmt.Println("数据类型不匹配")
+		}
 	}
 	return
 }
